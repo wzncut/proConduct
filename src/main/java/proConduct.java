@@ -21,7 +21,7 @@ public class proConduct {
         return java.net.URLDecoder.decode(url.getPath(), "UTF-8");
     }
 
-    //读取文件
+    //读取文件(离散化处理)
     public void loadFile(String path) throws IOException {
         BufferedReader myInput = null;
         BufferedReader myInput2 = null;
@@ -65,7 +65,7 @@ public class proConduct {
             }
         }
     }
-
+    //读取文件（读取原数据集文件和对应的分组结果文件）
     public void loadFile2(String path1,String path2) throws IOException {
         BufferedReader myInput = null;
         BufferedReader myInput2 = null;
@@ -123,7 +123,65 @@ public class proConduct {
         }
     }
 
+    public void loadFile3(String path1,String group,String outPath) throws IOException {
+        BufferedReader myInput = null;
+        BufferedReader groupInput = null;
+        FileWriter fw =null;
+        try {
+            FileInputStream fin1 = new FileInputStream(new File(path1));
+            FileInputStream groupFin = new FileInputStream(new File(group));
+            myInput = new BufferedReader(new InputStreamReader(fin1));
+            groupInput = new BufferedReader(new InputStreamReader(groupFin));
 
+            fw = new FileWriter(new File(outPath));
+            BufferedWriter bw = new BufferedWriter(fw);
+            String thisLine1;
+            String thisLine2;
+            while (null != ((thisLine1 = myInput.readLine())) && (null!=(thisLine2=groupInput.readLine()))){
+                String temp=null;
+                System.out.println(thisLine1);
+                switch (thisLine2){
+                    case "0 ":
+                        temp="one";
+                        break;
+                    case "1 ":
+                        temp="two";
+                        break;
+                    case "2 ":
+                        temp="three";
+                        break;
+                    case "3 ":
+                        temp="four";
+                        break;
+                    case "4 ":
+                        temp="five";
+                        break;
+                    case "5 ":
+                        temp="six";
+                        break;
+                    case "6 ":
+                        temp="seven";
+                        break;
+                    case "7 ":
+                        temp="eight";
+                        break;
+                }
+                bw.write(thisLine1+temp+"\n");
+                bw.flush();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if ( null!= myInput && null!= groupInput && null!= fw) {
+                myInput.close();
+                groupInput.close();
+                fw.close();
+            }
+        }
+
+    }
+
+    //输出（离散化输出）
     public void outPut(int[][] arr,String targetFile) throws IOException {
         File file = new File(targetFile);  //存放数组数据的文件
 
@@ -137,7 +195,7 @@ public class proConduct {
         }
         out.close();
     }
-
+    //输出（输出分组结果）
     public void outPut(int[] arr,String targetFile) throws IOException {
         File file = new File(targetFile);  //存放数组数据的文件
 
@@ -150,7 +208,7 @@ public class proConduct {
         out.close();
     }
 
-
+    //生成分组文件
     public void groupOutPut(ArrayList<ArrayList<Integer>> arrs,ArrayList<Integer> group) throws IOException {
         int max=0;
         int temp;
