@@ -1,15 +1,15 @@
-class BallTree {
-    //When call this function, the parameter should be null
-    static Hypersphere buildAnInstance(Hypersphere cur){
+class BallTreeStruct {
+    //递归调用建立ball tree
+    static SuperHy buildAnInstance(SuperHy cur){
         if(cur == null){
-            cur = new Hypersphere();
+            cur = new SuperHy();
             for(int i = 0; i < Process.INSTANCES.size(); ++i){
                 cur.addInstance(i);
             }
             cur.endAdding();
         }
-        Hypersphere[] ch = cur.split();
-        for(Hypersphere hp : ch){
+        SuperHy[] ch = cur.split();
+        for(SuperHy hp : ch){
             if(hp.size() <= Process.MAX_INSTANCE_NUM_NOT_SPLIT){
                 continue;
             }

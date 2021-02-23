@@ -17,9 +17,9 @@ public class mainGoing {
 
 
 //        确定分组数，取8
-//        Process.loadData("src/main/resources/result.txt");
-//        Map.Entry<ArrayList<Double>, ArrayList<Double>> res= Process.cluster(2,15);
-//        System.out.println(JSON.toJSONString(res));
+        Process.loadData("src/main/resources/result.txt");
+        Map.Entry<ArrayList<Double>, ArrayList<Double>> res= Process.cluster(2,15);
+        System.out.println(JSON.toJSONString(res));
 
 
 //        Process.loadData("src/main/resources/result.txt");

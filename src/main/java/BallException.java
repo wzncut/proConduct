@@ -1,4 +1,4 @@
-public class DimensionNotMatchException extends Exception{
+public class BallException extends java.lang.Exception {
     /**
      *
      */

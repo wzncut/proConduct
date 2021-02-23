@@ -28,20 +28,22 @@ class LoadProperties{
 }
 
 public class Process {
-    static ArrayList<ClusteringCenter> CENTERS = new ArrayList<ClusteringCenter>();
+    static ArrayList<Clustering> CENTERS = new ArrayList<Clustering>();
+    //数据集总数
     static ArrayList<Point> INSTANCES = new ArrayList<Point>();
-    static ArrayList<ClusteringCenter> PRE_CENS;
+    static ArrayList<Clustering> PRE_CENS;
+    //特征数
     static int DIMENSION;
     static int MAX_INSTANCE_NUM_NOT_SPLIT = 5;
-    static Hypersphere BALL_TREE;
+    static SuperHy BALL_TREE;
     static int TRY_TIMES = 10;
     //map cluster center results to its evaluation
-    static ArrayList<Entry<ArrayList<ClusteringCenter>, Double>> RESULTS = new ArrayList<Entry<ArrayList<ClusteringCenter>, Double>>(TRY_TIMES);
+    static ArrayList<Entry<ArrayList<Clustering>, Double>> RESULTS = new ArrayList<Entry<ArrayList<Clustering>, Double>>(TRY_TIMES);
 
     static boolean timeToEnd(){
         if(PRE_CENS == null)
             return false;
-        for(ClusteringCenter cc : Process.CENTERS){
+        for(Clustering cc : Process.CENTERS){
             if(!PRE_CENS.contains(cc))
                 return false;
         }
@@ -55,6 +57,7 @@ public class Process {
         while((line = r.readLine()) != null){
             String[] fs = line.split(" +");
             double[] pos = new double[fs.length];
+
             int i = 0;
             for(String s : fs){
                 pos[i++] = Double.valueOf(s + ".0");
@@ -64,12 +67,12 @@ public class Process {
         }
         r.close();
 
-        BALL_TREE = BallTree.buildAnInstance(null);
+        BALL_TREE = BallTreeStruct.buildAnInstance(null);
     }
 
-    static double evaluate(ArrayList<ClusteringCenter> cens){
+    static double evaluate(ArrayList<Clustering> cens){
         double ret = 0.0;
-        for(ClusteringCenter cc : cens){
+        for(Clustering cc : cens){
             ret += cc.evaluate();
         }
         return ret;
@@ -88,33 +91,37 @@ public class Process {
             Random rand = new Random();
             HashSet<Integer> rSet = new HashSet<Integer>();
             int size = INSTANCES.size();
+            //生成k个初始点
             while(rSet.size() < k){
                 rSet.add(rand.nextInt(size));
             }
+            //将初始点放入Process
             for(int index : rSet){
-                Process.CENTERS.add(new ClusteringCenter(Process.INSTANCES.get(index)));
+                Process.CENTERS.add(new Clustering(Process.INSTANCES.get(index)));
             }
 
-            //iteration until convergence
+            //迭代直到收敛
             while(!timeToEnd()){
-                Hypersphere.locateAndAssign(BALL_TREE);
-                PRE_CENS = new ArrayList<ClusteringCenter>(CENTERS);
-                ArrayList<ClusteringCenter> newCenters = new ArrayList<ClusteringCenter>();
-                for(ClusteringCenter cc : CENTERS){
+                SuperHy.locateAndAssign(BALL_TREE);
+
+                //记录中心点
+                PRE_CENS = new ArrayList<Clustering>(CENTERS);
+                ArrayList<Clustering> newCenters = new ArrayList<Clustering>();
+                for(Clustering cc : CENTERS){
                     cc = cc.getNewCenter();
                     newCenters.add(cc);
                 }
                 CENTERS = newCenters;
             }
-            Process.RESULTS.add(new SimpleEntry<ArrayList<ClusteringCenter>, Double>(PRE_CENS, Process.evaluate(PRE_CENS)));
-            Hypersphere.ALL_COUNT = 0;
-            Hypersphere.COUNT = 0;
+            Process.RESULTS.add(new SimpleEntry<ArrayList<Clustering>, Double>(PRE_CENS, Process.evaluate(PRE_CENS)));
+            SuperHy.ALL_COUNT = 0;
+            SuperHy.COUNT = 0;
         }
 
         //找到多次试验中评分最小的
         double minEvaluate = Double.MAX_VALUE;
         int minIndex = 0, i = 0;
-        for(Entry<ArrayList<ClusteringCenter>, Double> entry : RESULTS){
+        for(Entry<ArrayList<Clustering>, Double> entry : RESULTS){
             double e = entry.getValue();
             if(e < minEvaluate){
                 minEvaluate = e;
@@ -127,7 +134,7 @@ public class Process {
         //将instance对应的聚类编号返回
         Integer[] ret = new Integer[INSTANCES.size()];
         for(int cNum = 0; cNum < CENTERS.size(); cNum++){
-            ClusteringCenter cc = CENTERS.get(cNum);
+            Clustering cc = CENTERS.get(cNum);
             for(int pi : cc.belongedPoints()){
                 ret[pi] = cNum;
             }
