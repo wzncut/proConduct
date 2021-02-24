@@ -1,10 +1,10 @@
 import java.util.ArrayList;
 
 //每次迭代初始，clusterPoints为空，中心为新的mean点
-class ClusteringCenter extends Point {
+class Clustering extends Point {
     private ArrayList<Integer> clusterPoints;
     private double[] sumOfPoints;
-    ClusteringCenter(Point p){
+    Clustering(Point p){
         super(p.pos);
         clusterPoints = new ArrayList<Integer>();
         this.sumOfPoints = new double[this.dimension];
@@ -18,12 +18,12 @@ class ClusteringCenter extends Point {
         }
     }
 
-    ClusteringCenter getNewCenter(){
+    Clustering getNewCenter(){
         double[] pos = new double[Process.DIMENSION];
         for(int i = 0; i < this.dimension; ++i){
             pos[i] = sumOfPoints[i] / this.clusterPoints.size();
         }
-        return new ClusteringCenter(new Point(pos));
+        return new Clustering(new Point(pos));
     }
 
     double evaluate(){
