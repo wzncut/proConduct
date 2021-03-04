@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSON;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -68,6 +70,7 @@ public class Process {
         r.close();
 
         BALL_TREE = BallTreeStruct.buildAnInstance(null);
+        return;
     }
 
     static double evaluate(ArrayList<Clustering> cens){

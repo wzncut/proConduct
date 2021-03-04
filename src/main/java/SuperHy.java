@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -8,6 +9,17 @@ class SuperHy extends Point {
     private double radius;
     private LinkedList<Integer> instances;
     private SuperHy[] children;
+
+    @Override
+    public String toString() {
+        return "SuperHy{" +
+                "radius=" + radius +
+                ", instances=" + instances +
+                ", children=" + Arrays.toString(children) +
+                ", sumOfPoints=" + Arrays.toString(sumOfPoints) +
+                '}';
+    }
+
     private double[] sumOfPoints;
     static int COUNT = 0, ALL_COUNT = 0;
 
