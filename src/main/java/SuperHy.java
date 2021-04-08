@@ -36,7 +36,7 @@ class SuperHy extends Point {
         sumOfPoints = new double[Process.DIMENSION];
     }
 
-    //计算每一个维度出现的个数存在sumOfPoints中
+    //计算每一个特征出现的个数存在sumOfPoints中
     void addInstance(int index){
         instances.add(index);
         double[] pos = Process.INSTANCES.get(index).getPosition();
@@ -123,6 +123,7 @@ class SuperHy extends Point {
         return -1;
     }
 
+    //最小圆覆盖问题，
     private int getFarestPoint(Point p){
         double maxDist = 0.0;
         int maxIndex = -1;

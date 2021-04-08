@@ -31,7 +31,7 @@ class LoadProperties{
 
 public class Process {
     static ArrayList<Clustering> CENTERS = new ArrayList<Clustering>();
-    //数据集总数
+    //数据集实例
     static ArrayList<Point> INSTANCES = new ArrayList<Point>();
     static ArrayList<Clustering> PRE_CENS;
     //特征数
@@ -39,7 +39,7 @@ public class Process {
     static int MAX_INSTANCE_NUM_NOT_SPLIT = 5;
     static SuperHy BALL_TREE;
     static int TRY_TIMES = 10;
-    //map cluster center results to its evaluation
+    //结果集
     static ArrayList<Entry<ArrayList<Clustering>, Double>> RESULTS = new ArrayList<Entry<ArrayList<Clustering>, Double>>(TRY_TIMES);
 
     static boolean timeToEnd(){
@@ -52,7 +52,7 @@ public class Process {
         return true;
     }
 
-    //gives your dataset's path and this function will build the internal data structures.
+    //数据集的路径。建立内部数据结构。
     public static void loadData(String path) throws IOException{
         BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path))));
         String line;
@@ -86,7 +86,7 @@ public class Process {
      */
     public static Entry<Integer[], Double> cluster(int k) {
         for(int t = 0; t < Process.TRY_TIMES; t++){
-            //random pick the cluster centers
+            //随机选择中心
             CENTERS.clear();
             if(PRE_CENS != null)
                 PRE_CENS = null;

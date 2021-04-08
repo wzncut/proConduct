@@ -11,6 +11,8 @@ class BallTreeStruct {
             }
             cur.endAdding();
         }
+        //以上代码构建了一个大超球体
+        //下面进行分割，将大球内部分割小球
         SuperHy[] ch = cur.split();
         if (cur.getChildren()!=null){
             System.out.println("构建成功:"+cur.toString());

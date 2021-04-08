@@ -15,7 +15,8 @@ class Point {
         return this.dimension;
     }
 
-    double[] getPosition(){
+    double[] getPosition()
+    {
         return pos.clone();
     }
 
@@ -32,6 +33,7 @@ class Point {
         return sum;
     }
 
+    //欧氏距离
     public static double euclideanDistance(Point p1, Point p2){
         if(p1.pos.length != p2.pos.length)
             return -1.0;
