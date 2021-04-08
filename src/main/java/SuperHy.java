@@ -51,7 +51,9 @@ class SuperHy extends Point {
             this.pos[i] = this.sumOfPoints[i] / size;
         }
         //计算半径
-        this.radius = Point.euclideanDistance(this, Process.INSTANCES.get(this.getFarestPoint(this)));
+        int farst=this.getFarestPoint(this);
+        Point farestPoint= Process.INSTANCES.get(farst);
+        this.radius = Point.euclideanDistance(this, farestPoint);
     }
 
     int size(){
